@@ -44,7 +44,24 @@ public class Main {
 		person3.whatIsYourName();
 		
 		
+		printHumanInfo(person1);
+		printHumanInfo(student1);
+		
+		// printStudentInfo((Student)person1); //This is wrong
+		printStudentInfo((Student)person3);
+		printStudentInfo(student1);
 
+	}
+	
+	public static void printHumanInfo(Human human) {
+		System.out.println("Name:"+human.name);
+		System.out.println("Gender:"+human.gender);
+	}
+	
+	public static void printStudentInfo(Student student) {
+		printHumanInfo(student);
+		System.out.println("ID:"+student.id);
+		System.out.println("School:"+student.school);
 	}
 
 }
