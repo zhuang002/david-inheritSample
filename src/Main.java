@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
+import javax.swing.GroupLayout.Group;
 
 public class Main {
 
@@ -50,7 +54,45 @@ public class Main {
 		// printStudentInfo((Student)person1); //This is wrong
 		printStudentInfo((Student)person3);
 		printStudentInfo(student1);
+		
+		
+		Teachers teachers = new Teachers();
+		teachers.addTeacher(teacher1);
+		teachers.printTeachersByOrder();
 
+		
+		Students students = new Students();
+		students.addStudent(student1);
+		students.addStudent((Student)person3);
+		students.printStudentsByOrder();
+		
+		
+		MyGroup teachers2 = new Teachers();
+		teachers2.add(teacher1);
+		teachers2.printByOrder();
+		
+		MyGroup students2 = new Students();
+		students2.add(student1);
+		students2.add((Student)person3);
+		students.printByOrder();
+		
+
+		MyGroup group1 = new Teachers();
+		addToGroup(group1, teacher1);
+		group1.printByOrder();
+		
+		MyGroup group2 = new Students();
+		addToGroup(group2,student1);
+		addToGroup(group2,person3);
+		group2.printByOrder();
+	}
+	
+	public static void addToGroup(MyGroup group, Human human) {
+		group.add(human);
+	}
+	
+	public static void printGroup(MyGroup group) {
+		group.printByOrder();
 	}
 	
 	public static void printHumanInfo(Human human) {
@@ -101,6 +143,8 @@ class Human {
 			System.out.println("Nop");
 		}
 	}
+	
+	
 }
 
 class Date {
@@ -163,3 +207,71 @@ class Teacher extends Human {
 	
 	
 }
+
+class Teachers implements MyGroup {
+	ArrayList<Teacher> teachers = new ArrayList<>();
+	
+	public void addTeacher(Teacher teacher) {
+		this.teachers.add(teacher);
+	}
+	
+	public void printTeachersByOrder() {
+		Collections.sort(this.teachers,(x,y) ->x.name.compareTo(y.name));
+		for (Teacher t:this.teachers) {
+			System.out.print(t.name+" ");
+		}
+		System.out.println();
+	}
+
+	@Override
+	public void add(Human human) {
+		this.addTeacher((Teacher)human);
+		
+	}
+
+	@Override
+	public void printByOrder() {
+		// TODO Auto-generated method stub
+		this.printTeachersByOrder();
+	}
+}
+
+class Students implements MyGroup {
+	Student[]  students = new Student[100];
+	int size = 0;
+	
+	public void addStudent(Student student) {
+		this.students[size] = student;
+		size++;
+	}
+	
+	public void printStudentsByOrder() {
+		Arrays.sort(this.students, (x,y)->{ 
+			if (x==null) return 1000;
+			if (y==null) return -1;
+			return x.name.compareTo(y.name);
+			});
+		
+		for (int i=0;i<size;i++) {
+			System.out.print(this.students[i].name+" ");
+		}
+		System.out.println();
+	}
+
+	@Override
+	public void add(Human human) {
+		this.addStudent((Student)human);
+		
+	}
+
+	@Override
+	public void printByOrder() {
+		// TODO Auto-generated method stub
+		this.printStudentsByOrder();
+	}
+}
+
+interface MyGroup {
+	void add(Human human);
+	void printByOrder();
+} 
